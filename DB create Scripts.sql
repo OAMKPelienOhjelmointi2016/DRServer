@@ -1,0 +1,22 @@
+CREATE DATABASE oamkpo2016Db;
+
+CREATE TABLE users (ID INT NOT NULL PRIMARY KEY AUTOINCREMENT, firstName varchar(30), lastName varchar(30), 
+					nickName varchar(10), hits INT );
+					
+ALTER TABLE users 					
+
+CREATE TABLE shots (ID INT NOT NULL PRIMARY KEY AUTOINCREMENT, parentID INT NOT NULL, fired INT, 
+					FOREIGN KEY (parentID) REFERENCES users(ID) ON DELETE CASCADE);
+
+CREATE TABLE kills (ID INT NOT NULL PRIMARY KEY AUTOINCREMENT, parentID INT NOT NULL, kills INT, killed INT, hits INT,
+					FOREIGN KEY (parentID) REFERENCES users(ID) ON DELETE CASCADE);
+
+/*					
+CREATE TABLE playTime (ID INT NOT NULL PRIMARY KEY AUTOINCREMENT, parentID INT NOT NULL, playTime INT 
+					FOREIGN KEY (parentID) REFERENCES users(ID) ON DELETE CASCADE);
+*/					
+					
+					
+					
+					
+		
