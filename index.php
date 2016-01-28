@@ -21,15 +21,6 @@ $app->get('/login', function ()
 	$stmt -> execute();
 	$result = $stmt -> fetchAll(PDO::FETCH_ASSOC);
 		
-	if ($result==NULL)
-	{
-		$stmt = $db->prepare("INSERT INTO users (firstName, lastName, nickName, playTime) VALUES ('testi', 'tester', :nName, 0);");
-		$stmt -> execute();
-		
-		$stmt = $db->prepare("SELECT ID FROM users WHERE nickName = :nname;");
-		$stmt -> execute();
-		$result = $stmt -> fetchAll(PDO::FETCH_ASSOC);
-	}
 	$json=json_encode(array('Reply' => $result));
 	
 	return $json;
