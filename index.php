@@ -39,9 +39,19 @@ $app->get('/login', function ()
 
 $app->get('/users', function () 
 {
+	$nName = $_GET['nname'];
+	
 	$db = db_connect();
 	header('Content-Type: application/json');
-	$stmt = $db->prepare("SELECT ID, firstName, lastName, playTime FROM users ORDER BY ID;");
+	if ($nName==NULL)
+	{
+		$stmt = $db->prepare("SELECT ID, firstName, lastName, nickName, playTime FROM users ORDER BY ID;");
+	}
+	else
+	{
+		$stmt = $db->prepare("SELECT ID, firstName, lastName, nickName, playTime FROM users WHERE nickName = :nName;");
+		$stmt->bindParam(':nName', $nName);
+	}
 	$stmt -> execute();
 	$result = $stmt -> fetchAll(PDO::FETCH_ASSOC);
 		
@@ -99,8 +109,10 @@ $app->post('/shots', function ()
 		$ID = $_POST['ID'];
 		
 		$shots = $_POST['shots'];
-		if (!isset $shots)
+		if (!isset ($shots))
+		{
 			$shots = 1;
+		}
 		
 		$db = db_connect();
 		
