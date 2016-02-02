@@ -232,5 +232,23 @@ $app->post('/kills', function ()
 }
 );
 
+$app->get('/top10', function () 
+{
+	
+	$db = db_connect();
+	header('Content-Type: application/json');
+	$stmt = $db->prepare("SELECT b.ID, b.nickName, a.parentID, a.kills, a.killed, a.hits
+						  FROM kills AS a LEFT JOIN users AS b ON a.ParentID = b.ID
+						  ORDER BY a.kills DESC 
+						  LIMIT 10;");
+	$stmt -> execute();
+	$result = $stmt -> fetchAll(PDO::FETCH_ASSOC);
+		
+	$json=json_encode(array('Reply' => $result));
+	
+	return $json;
+}
+);
+
 
 $app->run();
