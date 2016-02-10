@@ -20,6 +20,18 @@ $app->get('/login', function ()
 	$stmt->bindParam(':nName', $nName);	
 	$stmt -> execute();
 	$result = $stmt -> fetchAll(PDO::FETCH_ASSOC);
+	
+	if ($result==NULL)
+	{
+		$stmt = $db->prepare("INSERT INTO users (nickName, playTime) VALUES (:nName, 0);");
+		$stmt->bindParam(':nName', $nName);	
+		$stmt -> execute();
+
+		$stmt = $db->prepare("SELECT ID FROM users WHERE nickName = :nName;");
+		$stmt->bindParam(':nName', $nName);	
+		$stmt -> execute();
+		$result = $stmt -> fetchAll(PDO::FETCH_ASSOC);
+	}
 		
 	$json=json_encode(array('Reply' => $result));
 	
